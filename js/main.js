@@ -1,5 +1,6 @@
 import { getData, sendPost } from "./modules/fetch.js";
 import { takeInputs, goTo } from "./modules/helpers.js";
+import feedback from "./modules/feedback.js";
 
 console.log("main.js");
 
@@ -9,7 +10,7 @@ const loginForm = document.forms[0];
 // parsisiusti visus vartotojus https://reqres.in/api/users?page=1
 
 getData("https://reqres.in/api/users?page=1").then((dataInJs) => {
-  // console.log('dataInJs ===', dataInJs.data);
+  console.log("dataInJs ===", dataInJs.data);
 });
 
 const age = 45; // nesimato per konsole
@@ -31,6 +32,7 @@ async function loginHandler(event) {
   if (sendResult.error) {
     // klaida, nusiunciant duomenis arba serveryje.
     console.warn("klaida", sendResult.error);
+    feedback.fail(`Klaida: ${sendResult.error}`);
   } else {
     // nera klaidos sekmingai prisiloginome.
     console.log("sekme");
@@ -39,7 +41,10 @@ async function loginHandler(event) {
     localStorage.setItem("userEmail", loginObj.email);
     // naviguoti i users-only.html
     // window.location.href = 'user-only.html';
-    goTo("user-only.html");
+    feedback.success(`Login success, welcome ${loginObj.email}`);
+    setTimeout(() => {
+      goTo("user-only.html");
+    }, 5000);
   }
 }
 

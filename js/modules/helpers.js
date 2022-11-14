@@ -10,3 +10,9 @@ export function takeInputs(formObj) {
 export function goTo(where) {
   window.location.href = where;
 }
+
+export function clearMyStorage() {
+  // istrinti userEmail ir userToken is localstorage.
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userToken");
+}
